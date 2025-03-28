@@ -14,9 +14,12 @@ var isDevelopmentMode = true;
 // Get your App ID and Keys from https://www.leanplum.com/dashboard?#/account/apps
 if (isDevelopmentMode) {
  Leanplum.setAppIdForDevelopmentMode("app_xvhLIDh3sIs71lx6yMYEW8LhhodWlFwvAUPeM4JoCSQ", "dev_nUVY7kDD4NFROS0HSBB8c1UDnRwb17tb5d1smWQI93o");
+ //Leanplum.setAppIdForProductionMode("app_xvhLIDh3sIs71lx6yMYEW8LhhodWlFwvAUPeM4JoCSQ", "prod_wu6BfCX0f4MY6lRgqDytTUWPxDYZOIEbS0MqZgIFKGk");
 } else {
  Leanplum.setAppIdForProductionMode("app_xvhLIDh3sIs71lx6yMYEW8LhhodWlFwvAUPeM4JoCSQ", "prod_wu6BfCX0f4MY6lRgqDytTUWPxDYZOIEbS0MqZgIFKGk");
 }
+
+Leanplum.enableRichInAppMessages(true);
 
 //Leanplum.setVariables(variables);
 Leanplum.start(function(success) {
@@ -28,7 +31,10 @@ Leanplum.start(function(success) {
 
  // Tracks view page event for a user.
 Leanplum.track("View index.html page");
+Leanplum.track("onboarding_social_linked", { platform: "web", social: 'twitter'});
 });
+
+
 
 //IN APP MESSAGES
 // 1. Register handler for in-app messages
@@ -37,10 +43,14 @@ Leanplum.on('showMessage', function (args) {
   var context = args.context;
   
   // 2. Filter out unsupported message types
-  if (message.__name__ !== 'Confirm') {
+if (message.__name__ !== 'Confirm') {
     return;
   }
-  
+
+/*    if (message.__name__ !== 'Web Interstitial') {
+    return;
+  }
+  */
   // 3. Track impression
   context.track();
   
